@@ -8,10 +8,15 @@
   },
   "author": "",
   "license": "ISC",
-  "browserslist": [
-    "> 1%",
-    "not dead"
-  ],
+  "browserslist": {
+    "chrome": "76",
+    "edge": "18",
+    "firefox": "69",
+    "ie": "11",
+    "ios": "12.2",
+    "safari": "13",
+    "samsung": "10.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
