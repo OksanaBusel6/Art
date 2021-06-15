@@ -1,5 +1,7 @@
 const modals = (width) => {
-  function bindModals(trigersSelector, modalSelector, closeSelector = '.popup-close') {
+  let open;
+
+  function bindModals(trigersSelector, modalSelector, destroy = false, closeSelector = '.popup-close') {
     const triggers = document.querySelectorAll(trigersSelector),
           modal = document.querySelector(modalSelector),
           close = modal.querySelector(closeSelector),
@@ -22,7 +24,10 @@ const modals = (width) => {
           });
           
           openModal(modal);
-                  
+          
+          if (destroy) {
+           trigger.style.display = 'none';
+          }
         }
       });
     });
@@ -61,16 +66,36 @@ const modals = (width) => {
     modalEl.style.display = 'block';
     document.body.classList.add('modal-open');
     document.body.style.paddingRight = width + 'px';
+
+    open = true;
   
     if (fixedElement) {
       fixedElement.style.right = (20 + width) + 'px';
     }          
   }
 
+  function showModalDown() {
+    document.addEventListener('scroll', () => {
+      const bottom = window.pageYOffset + document.documentElement.clientHeight;
+      const heighDocument = document.documentElement.scrollHeight -1;
+      
+      const modal = document.querySelector('.popup-gift');
+
+      if (bottom >= heighDocument && !open) {
+        openModal(modal);
+
+        document.querySelector('.fixed-gift').style.display = 'none';
+      }
+    });
+
+  }
+
   bindModals('.button-design', '.popup-design');
   bindModals('.button-consultation', '.popup-consultation');
+  bindModals('.fixed-gift', '.popup-gift', true);
 
-  showModalByTime('.popup-consultation', 5000);
+  showModalByTime('.popup-consultation', 60000);
+  showModalDown();
 };
 
 
