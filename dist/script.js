@@ -1639,11 +1639,12 @@ var modals = function modals(width) {
         if (nextModal) {
           windows.forEach(function (window) {
             window.style.display = 'none';
+            window.classList.add('animated', 'fadeIn');
           });
           openModal(modal);
 
           if (destroy) {
-            trigger.style.display = 'none';
+            trigger.remove();
           }
         }
       });
@@ -1686,15 +1687,13 @@ var modals = function modals(width) {
     }
   }
 
-  function showModalDown() {
+  function showModalDown(selector) {
     document.addEventListener('scroll', function () {
       var bottom = window.pageYOffset + document.documentElement.clientHeight;
-      var heighDocument = document.documentElement.scrollHeight - 1;
-      var modal = document.querySelector('.popup-gift');
+      var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
 
-      if (bottom >= heighDocument && !open) {
-        openModal(modal);
-        document.querySelector('.fixed-gift').style.display = 'none';
+      if (bottom >= scrollHeight - 1 && !open) {
+        document.querySelector(selector).click();
       }
     });
   }
@@ -1703,7 +1702,7 @@ var modals = function modals(width) {
   bindModals('.button-consultation', '.popup-consultation');
   bindModals('.fixed-gift', '.popup-gift', true);
   showModalByTime('.popup-consultation', 60000);
-  showModalDown();
+  showModalDown('.fixed-gift');
 };
 
 function closeModal(modalEl) {

@@ -21,12 +21,13 @@ const modals = (width) => {
         if (nextModal) {
           windows.forEach(window => {
             window.style.display = 'none';
+            window.classList.add('animated', 'fadeIn');
           });
           
           openModal(modal);
           
           if (destroy) {
-           trigger.style.display = 'none';
+           trigger.remove();
           }
         }
       });
@@ -74,17 +75,13 @@ const modals = (width) => {
     }          
   }
 
-  function showModalDown() {
+  function showModalDown(selector) {
     document.addEventListener('scroll', () => {
       const bottom = window.pageYOffset + document.documentElement.clientHeight;
-      const heighDocument = document.documentElement.scrollHeight -1;
-      
-      const modal = document.querySelector('.popup-gift');
+      const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
 
-      if (bottom >= heighDocument && !open) {
-        openModal(modal);
-
-        document.querySelector('.fixed-gift').style.display = 'none';
+      if ((bottom >= (scrollHeight - 1)) && !open) {
+        document.querySelector(selector).click();
       }
     });
 
@@ -95,7 +92,7 @@ const modals = (width) => {
   bindModals('.fixed-gift', '.popup-gift', true);
 
   showModalByTime('.popup-consultation', 60000);
-  showModalDown();
+  showModalDown('.fixed-gift');
 };
 
 
